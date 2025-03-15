@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyScript 学習リソース</title>
+    <!-- PyScriptのCSSとJSを読み込み -->
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <!-- 共通CSSの読み込み -->
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">基本ページ</a>
+        <a href="advanced.html">高度な例</a>
+        <a href="resources.html">学習リソース</a>
+        <a href="https://github.com/toma4423/py_script" target="_blank">GitHub リポジトリ</a>
+    </div>
+
+    <header>
+        <h1>PyScript 学習リソース</h1>
+        <p>このページではPyScriptの学習に役立つリソースを紹介します。公式ドキュメント、チュートリアル、サンプルコードなど、PyScriptを学ぶための情報を集めました。</p>
+    </header>
+
+    <section>
+        <h2>PyScriptとは？</h2>
+        <p>PyScriptはブラウザ上でPythonを実行するためのフレームワークです。HTMLファイル内に直接Pythonコードを記述し、JavaScriptを使わずにインタラクティブなWebアプリケーションを作成できます。</p>
+        
+        <div class="example">
+            <h3>基本的な使い方</h3>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" /&gt;
+    &lt;script defer src="https://pyscript.net/latest/pyscript.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;py-script&gt;
+        print("Hello, PyScript!")
+    &lt;/py-script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>公式ドキュメント</h2>
+        <ul class="resource-list">
+            <li><a href="https://pyscript.net/" target="_blank">PyScript 公式サイト</a> - PyScriptの公式ウェブサイト</li>
+            <li><a href="https://docs.pyscript.net/" target="_blank">PyScript ドキュメント</a> - 詳細なドキュメントとガイド</li>
+            <li><a href="https://github.com/pyscript/pyscript" target="_blank">GitHub リポジトリ</a> - ソースコードとイシュートラッカー</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>チュートリアルとガイド</h2>
+        <ul class="resource-list">
+            <li><a href="https://pyscript.net/examples/" target="_blank">公式サンプル</a> - PyScriptチームによる公式サンプル集</li>
+            <li><a href="https://realpython.com/pyscript-python-in-browser/" target="_blank">Real Python: PyScript Tutorial</a> - ブラウザでPythonを実行する方法</li>
+            <li><a href="https://www.freecodecamp.org/news/pyscript-python-front-end-framework/" target="_blank">freeCodeCamp: PyScript Guide</a> - PyScriptの基本から応用まで</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>サンプルコード</h2>
+        <div class="example">
+            <h3>外部パッケージの使用</h3>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" /&gt;
+    &lt;script defer src="https://pyscript.net/latest/pyscript.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;py-config&gt;
+        packages = ["numpy", "matplotlib"]
+    &lt;/py-config&gt;
+    
+    &lt;div id="plot"&gt;&lt;/div&gt;
+    
+    &lt;py-script output="plot"&gt;
+        import numpy as np
+        import matplotlib.pyplot as plt
+        
+        x = np.linspace(0, 10, 100)
+        y = np.sin(x)
+        
+        plt.figure(figsize=(8, 4))
+        plt.plot(x, y)
+        plt.title('Sin(x) Function')
+        plt.grid(True)
+        
+        plt
+    &lt;/py-script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <div class="example">
+            <h3>DOMの操作</h3>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" /&gt;
+    &lt;script defer src="https://pyscript.net/latest/pyscript.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;input id="name-input" type="text" placeholder="あなたの名前"&gt;
+    &lt;button id="greet-button" pys-onClick="greet"&gt;挨拶する&lt;/button&gt;
+    &lt;div id="output"&gt;&lt;/div&gt;
+    
+    &lt;py-script&gt;
+        from pyscript import Element
+        
+        def greet(*args, **kwargs):
+            name = Element("name-input").value
+            if not name:
+                name = "ゲスト"
+            Element("output").write(f"こんにちは、{name}さん！")
+    &lt;/py-script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>FastAPIとPyScriptの連携</h2>
+        <div class="example">
+            <h3>FastAPIとは</h3>
+            <p>FastAPIは、Pythonで高速なAPIを構築するための現代的なWebフレームワークです。非同期処理をサポートし、自動的にAPIドキュメントを生成します。</p>
+            
+            <h3>PyScriptからFastAPIエンドポイントを呼び出す例</h3>
+            <pre><code>&lt;!-- HTML部分 --&gt;
+&lt;button id="fetch-data-btn" pys-onClick="fetch_data"&gt;データを取得&lt;/button&gt;
+&lt;div id="api-result"&gt;&lt;/div&gt;
+
+&lt;!-- Python部分 --&gt;
+&lt;py-script&gt;
+    import asyncio
+    from pyodide.http import pyfetch
+    from pyscript import Element
+
+    async def fetch_data(*args, **kwargs):
+        Element("api-result").write("データを取得中...")
+        try:
+            # ローカルのFastAPIエンドポイントを呼び出す
+            response = await pyfetch("http://localhost:8000/api/hello")
+            if response.status == 200:
+                data = await response.json()
+                Element("api-result").write(f"結果: {data['message']}")
+            else:
+                Element("api-result").write(f"エラー: ステータスコード {response.status}")
+        except Exception as e:
+            Element("api-result").write(f"エラー: {str(e)}")
+&lt;/py-script&gt;</code></pre>
+
+            <h3>注意: GitHub Pagesでの制限</h3>
+            <p>このページはGitHub Pagesでホストされているため、FastAPIのバックエンドは動作しません。完全な機能を体験するには、ローカル環境でFastAPIサーバーを実行してください。</p>
+            <pre><code>
+# リポジトリをクローン
+git clone https://github.com/toma4423/py_script.git
+cd py_script
+
+# 実行スクリプトを実行
+./run.sh
+            </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>よくある質問 (FAQ)</h2>
+        <div class="faq">
+            <div class="faq-item">
+                <h3>PyScriptはどのブラウザで動作しますか？</h3>
+                <p>PyScriptは最新のモダンブラウザ（Chrome、Firefox、Edge、Safariなど）で動作します。ただし、最新バージョンのブラウザを使用することをお勧めします。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>PyScriptのパフォーマンスはどうですか？</h3>
+                <p>PyScriptはPyodideを通じてWebAssemblyでPythonを実行するため、ネイティブのPythonよりは遅いですが、多くの用途には十分なパフォーマンスを提供します。計算量の多い処理や大規模なデータ処理には向いていない場合があります。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>どのPythonライブラリが使えますか？</h3>
+                <p>純粋なPythonで書かれたライブラリや、WebAssemblyにコンパイルされたライブラリが使用できます。NumPy、Pandas、Matplotlib、scikit-learnなどの主要なデータサイエンスライブラリは使用可能です。ただし、C拡張に依存するすべてのライブラリが動作するわけではありません。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>ファイル操作はできますか？</h3>
+                <p>ブラウザのセキュリティ制限により、通常のファイルシステム操作は制限されています。ただし、ブラウザのFile APIを使用したファイルのアップロードや、ダウンロードは可能です。また、ブラウザのローカルストレージを使用してデータを保存することもできます。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>JavaScriptなしでWebアプリケーションを作れますか？</h3>
+                <p>はい、PyScriptを使用すれば、JavaScriptを書かずにPythonだけでインタラクティブなWebアプリケーションを作成できます。DOMの操作、イベントハンドリング、非同期処理などがPythonで実装可能です。</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>コミュニティとサポート</h2>
+        <ul class="resource-list">
+            <li><a href="https://discord.gg/BYB2kvyFwm" target="_blank">PyScript Discord</a> - コミュニティに参加して質問や議論をする</li>
+            <li><a href="https://github.com/pyscript/pyscript/discussions" target="_blank">GitHub Discussions</a> - 質問、アイデア、ディスカッション</li>
+            <li><a href="https://stackoverflow.com/questions/tagged/pyscript" target="_blank">Stack Overflow</a> - PyScriptタグの質問と回答</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>PyScriptの未来</h2>
+        <p>PyScriptは比較的新しいプロジェクトであり、積極的に開発が進められています。今後は以下のような改善が期待されています：</p>
+        <ul>
+            <li>パフォーマンスの向上</li>
+            <li>より多くのライブラリのサポート</li>
+            <li>開発ツールの改善</li>
+            <li>モバイルデバイスでの最適化</li>
+            <li>より良いデバッグ機能</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>PyScript 学習ページ &copy; 2023 - <a href="https://github.com/toma4423/py_script" target="_blank">GitHub リポジトリ</a></p>
+    </footer>
+</body>
+</html> 

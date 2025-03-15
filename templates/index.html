@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyScript 学習ページ</title>
+    <!-- PyScriptのCSSとJSを読み込み -->
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <!-- 共通CSSの読み込み -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}" />
+</head>
+<body>
+    <div class="nav">
+        <a href="{{ url_for('index') }}">基本ページ</a>
+        <a href="{{ url_for('advanced') }}">高度な例</a>
+        <a href="{{ url_for('resources') }}">学習リソース</a>
+        <a href="https://github.com/toma4423/py_script" target="_blank">GitHub リポジトリ</a>
+    </div>
+
+    <header>
+        <h1>PyScript 学習ページ</h1>
+        <p>このページはPyScriptの学習と実験のために作成されました。PyScriptを使用してブラウザ上でPythonコードを実行できます。</p>
+    </header>
+
+    <section>
+        <h2>PyScriptとは？</h2>
+        <p>PyScriptはブラウザ上でPythonを実行するためのフレームワークです。HTMLファイル内に直接Pythonコードを記述し、JavaScriptを使わずにインタラクティブなWebアプリケーションを作成できます。</p>
+    </section>
+
+    <section>
+        <h2>基本的な例</h2>
+        <div class="example">
+            <h3>例1: 簡単な計算</h3>
+            <div class="code-area">
+                <py-script>
+                    # 簡単な計算を行い、結果を表示する
+                    result = 0
+                    for i in range(1, 11):
+                        result += i
+                    
+                    print(f"1から10までの合計: {result}")
+                    
+                    # 二次方程式の解を求める関数
+                    def solve_quadratic(a, b, c):
+                        import math
+                        discriminant = b**2 - 4*a*c
+                        
+                        if discriminant < 0:
+                            return "実数解なし"
+                        elif discriminant == 0:
+                            x = -b / (2*a)
+                            return f"重解 x = {x}"
+                        else:
+                            x1 = (-b + math.sqrt(discriminant)) / (2*a)
+                            x2 = (-b - math.sqrt(discriminant)) / (2*a)
+                            return f"x1 = {x1}, x2 = {x2}"
+                    
+                    print("\n二次方程式 x^2 - 5x + 6 = 0 の解:")
+                    print(solve_quadratic(1, -5, 6))
+                </py-script>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>例2: リストの操作</h3>
+            <div class="code-area">
+                <py-script>
+                    # リストの操作
+                    fruits = ["りんご", "バナナ", "オレンジ", "ぶどう", "メロン"]
+                    
+                    print("フルーツリスト:")
+                    for i, fruit in enumerate(fruits, 1):
+                        print(f"{i}. {fruit}")
+                    
+                    # リスト内包表記を使った処理
+                    uppercase_fruits = [fruit.upper() for fruit in fruits]
+                    print("\n大文字に変換:")
+                    print(uppercase_fruits)
+                    
+                    # フィルタリング
+                    long_fruits = [fruit for fruit in fruits if len(fruit) > 3]
+                    print("\n3文字より長い名前のフルーツ:")
+                    print(long_fruits)
+                </py-script>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>インタラクティブな例</h2>
+        <div class="example">
+            <h3>例3: 入力と出力</h3>
+            <div>
+                <label for="name-input">あなたの名前:</label>
+                <input id="name-input" type="text" placeholder="名前を入力">
+                <button id="greet-button" pys-onClick="greet">挨拶する</button>
+                <div id="greeting-output" class="output-area"></div>
+
+                <py-script>
+                    def greet(*args, **kwargs):
+                        from pyscript import Element
+                        
+                        # 入力値を取得
+                        name = Element("name-input").value
+                        
+                        if not name:
+                            name = "ゲスト"
+                        
+                        # 出力エリアに挨拶を表示
+                        Element("greeting-output").write(f"こんにちは、{name}さん！PyScriptの世界へようこそ！")
+                </py-script>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>データ可視化の例</h2>
+        <div class="example">
+            <h3>例4: 簡単なグラフ</h3>
+            <div id="matplotlib-example" class="output-area"></div>
+            <py-config>
+                packages = ["matplotlib", "numpy"]
+            </py-config>
+            <py-script output="matplotlib-example">
+                import matplotlib.pyplot as plt
+                import numpy as np
+                
+                # データの準備
+                x = np.linspace(0, 10, 100)
+                y_sin = np.sin(x)
+                y_cos = np.cos(x)
+                
+                # プロットの作成
+                plt.figure(figsize=(8, 4))
+                plt.plot(x, y_sin, label='sin(x)')
+                plt.plot(x, y_cos, label='cos(x)')
+                plt.title('サイン関数とコサイン関数')
+                plt.xlabel('x')
+                plt.ylabel('y')
+                plt.grid(True)
+                plt.legend()
+                
+                plt.tight_layout()
+                plt
+            </py-script>
+        </div>
+    </section>
+
+    <section>
+        <h2>FastAPIとの連携</h2>
+        <div class="example">
+            <h3>例5: FastAPIエンドポイントの呼び出し</h3>
+            <button id="api-btn" pys-onClick="call_api">APIを呼び出す</button>
+            <div id="api-output" class="output-area"></div>
+
+            <py-script>
+                """
+                FastAPIエンドポイントを呼び出す例
+                
+                このスクリプトでは、PyScriptからFastAPIのエンドポイントを呼び出し、
+                結果を表示します。
+                """
+                from pyodide.http import pyfetch
+                from pyscript import Element
+                
+                async def call_api(*args, **kwargs):
+                    try:
+                        Element("api-output").write("APIを呼び出し中...")
+                        
+                        # FastAPIエンドポイントを呼び出す
+                        response = await pyfetch(
+                            url="/api/hello",
+                            method="GET"
+                        )
+                        
+                        if response.status == 200:
+                            data = await response.json()
+                            Element("api-output").write(f"APIからのレスポンス: {data['message']}")
+                        else:
+                            Element("api-output").write(f"エラー: ステータスコード {response.status}")
+                    
+                    except Exception as e:
+                        Element("api-output").write(f"エラー: {str(e)}")
+            </py-script>
+        </div>
+    </section>
+
+    <footer>
+        <p>PyScript 学習ページ &copy; 2023 - <a href="https://github.com/toma4423/py_script" target="_blank">GitHub リポジトリ</a></p>
+    </footer>
+</body>
+</html> 

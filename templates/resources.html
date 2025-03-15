@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyScript 学習リソース</title>
+    <!-- PyScriptのCSSとJSを読み込み -->
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <!-- 共通CSSの読み込み -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}" />
+</head>
+<body>
+    <div class="nav">
+        <a href="{{ url_for('index') }}">基本ページ</a>
+        <a href="{{ url_for('advanced') }}">高度な例</a>
+        <a href="{{ url_for('resources') }}">学習リソース</a>
+        <a href="https://github.com/toma4423/py_script" target="_blank">GitHub リポジトリ</a>
+    </div>
+
+    <header>
+        <h1>PyScript 学習リソース</h1>
+        <p>このページではPyScriptを学ぶための参考資料やリソースを紹介します。</p>
+    </header>
+
+    <section>
+        <h2>PyScriptとは</h2>
+        <div class="resource-section">
+            <p>PyScriptは、HTMLドキュメント内でPythonコードを直接実行できるようにするフレームワークです。WebAssemblyを利用して、ブラウザ上でPythonコードを実行します。これにより、JavaScriptを使わずにPythonだけでインタラクティブなWebアプリケーションを作成することが可能になります。</p>
+            
+            <h3>主な特徴</h3>
+            <ul>
+                <li>HTMLファイル内に直接Pythonコードを記述できる</li>
+                <li>NumPy、Pandas、Matplotlib、scikit-learnなどの人気のあるPythonライブラリを使用できる</li>
+                <li>DOMの操作が可能</li>
+                <li>外部APIとの通信が可能</li>
+                <li>データの可視化が簡単に行える</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>公式ドキュメント</h2>
+        <div class="resource-section">
+            <p>PyScriptの公式ドキュメントは、学習の最も重要なリソースです。</p>
+            
+            <ul class="resource-list">
+                <li><a href="https://pyscript.net/" target="_blank">PyScript 公式サイト</a> - PyScriptの概要と基本情報</li>
+                <li><a href="https://docs.pyscript.net/" target="_blank">PyScript ドキュメント</a> - 詳細なドキュメントとガイド</li>
+                <li><a href="https://github.com/pyscript/pyscript" target="_blank">PyScript GitHub リポジトリ</a> - ソースコードとイシュートラッカー</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>チュートリアルとガイド</h2>
+        <div class="resource-section">
+            <p>PyScriptを学ぶための優れたチュートリアルとガイドを紹介します。</p>
+            
+            <ul class="resource-list">
+                <li><a href="https://realpython.com/pyscript-python-in-browser/" target="_blank">Real Python: PyScript Tutorial</a> - ブラウザでPythonを実行する方法の詳細なチュートリアル</li>
+                <li><a href="https://www.freecodecamp.org/news/pyscript-python-front-end-framework/" target="_blank">freeCodeCamp: PyScript Guide</a> - PyScriptを使ったフロントエンド開発の基本</li>
+                <li><a href="https://towardsdatascience.com/pyscript-unleash-the-power-of-python-in-your-browser-6e0123c6dc3f" target="_blank">Towards Data Science: PyScript for Data Science</a> - データサイエンスのためのPyScript活用法</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>サンプルコード</h2>
+        <div class="resource-section">
+            <h3>基本的な使い方</h3>
+            <div class="code-snippet">
+                <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" /&gt;
+    &lt;script defer src="https://pyscript.net/latest/pyscript.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;py-script&gt;
+        print("Hello, PyScript!")
+    &lt;/py-script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+
+            <h3>外部パッケージの使用</h3>
+            <div class="code-snippet">
+                <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" /&gt;
+    &lt;script defer src="https://pyscript.net/latest/pyscript.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;py-config&gt;
+        packages = ["numpy", "matplotlib"]
+    &lt;/py-config&gt;
+    
+    &lt;div id="plot"&gt;&lt;/div&gt;
+    
+    &lt;py-script output="plot"&gt;
+        import numpy as np
+        import matplotlib.pyplot as plt
+        
+        x = np.linspace(0, 10, 100)
+        y = np.sin(x)
+        
+        plt.figure(figsize=(8, 4))
+        plt.plot(x, y)
+        plt.title('サイン関数')
+        plt.grid(True)
+        
+        plt
+    &lt;/py-script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+
+            <h3>DOMの操作</h3>
+            <div class="code-snippet">
+                <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" /&gt;
+    &lt;script defer src="https://pyscript.net/latest/pyscript.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;input id="name-input" type="text" placeholder="あなたの名前"&gt;
+    &lt;button id="greet-button" pys-onClick="greet"&gt;挨拶する&lt;/button&gt;
+    &lt;div id="output"&gt;&lt;/div&gt;
+    
+    &lt;py-script&gt;
+        from pyscript import Element
+        
+        def greet(*args, **kwargs):
+            name = Element("name-input").value
+            if not name:
+                name = "ゲスト"
+            Element("output").write(f"こんにちは、{name}さん！")
+    &lt;/py-script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>FastAPIとPyScriptの連携</h2>
+        <div class="resource-section">
+            <h3>FastAPIとは</h3>
+            <p>FastAPIは、Pythonで高速なAPIを構築するための最新のWebフレームワークです。自動ドキュメント生成、型チェック、非同期処理などの機能を備えています。</p>
+            
+            <h3>PyScriptとFastAPIの連携例</h3>
+            <div class="code-snippet">
+                <pre><code>&lt;!-- HTMLファイル内のPyScript部分 --&gt;
+&lt;py-script&gt;
+    from pyodide.http import pyfetch
+    from pyscript import Element
+    
+    async def call_api(*args, **kwargs):
+        try:
+            # FastAPIエンドポイントを呼び出す
+            response = await pyfetch(
+                url="/api/data",
+                method="GET"
+            )
+            
+            if response.status == 200:
+                data = await response.json()
+                Element("output").write(f"APIからのデータ: {data}")
+            else:
+                Element("output").write(f"エラー: {response.status}")
+        
+        except Exception as e:
+            Element("output").write(f"エラー: {str(e)}")
+&lt;/py-script&gt;</code></pre>
+            </div>
+            
+            <div class="code-snippet">
+                <pre><code># FastAPIのコード例
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/api/data")
+async def get_data():
+    return {"message": "これはFastAPIからのデータです", "value": 42}
+</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>よくある質問</h2>
+        <div class="resource-section">
+            <h3>PyScriptはどのブラウザで動作しますか？</h3>
+            <p>PyScriptは最新のモダンブラウザ（Chrome、Firefox、Edge、Safariなど）で動作します。ただし、WebAssemblyをサポートしているブラウザが必要です。</p>
+            
+            <h3>PyScriptのパフォーマンスはどうですか？</h3>
+            <p>PyScriptはWebAssemblyを使用してPythonコードを実行するため、ネイティブのPythonよりは遅くなります。特に初回ロード時には時間がかかることがあります。ただし、一度ロードされると、比較的スムーズに動作します。</p>
+            
+            <h3>すべてのPythonライブラリが使用できますか？</h3>
+            <p>すべてのPythonライブラリが使用できるわけではありません。特にC拡張を使用するライブラリは動作しない場合があります。ただし、NumPy、Pandas、Matplotlib、scikit-learnなどの多くの人気ライブラリはサポートされています。</p>
+            
+            <h3>PyScriptでファイルの読み書きはできますか？</h3>
+            <p>ブラウザのセキュリティ制限により、ローカルファイルシステムへの直接アクセスはできません。ただし、ブラウザのFileSystemAPIを使用したり、サーバーとの通信を通じてファイル操作を行うことは可能です。</p>
+            
+            <h3>JavaScriptを全く使わずにWebアプリケーションを作れますか？</h3>
+            <p>はい、PyScriptとFastAPIを組み合わせることで、JavaScriptを直接書かずにPythonだけでインタラクティブなWebアプリケーションを構築することができます。ただし、内部的にはPyScriptがPythonコードをJavaScriptに変換しています。</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>コミュニティとサポート</h2>
+        <div class="resource-section">
+            <p>PyScriptのコミュニティに参加して、質問したり、情報を共有したりしましょう。</p>
+            
+            <ul class="resource-list">
+                <li><a href="https://discord.gg/BYB2kvyFwm" target="_blank">PyScript Discord</a> - PyScriptの公式Discordサーバー</li>
+                <li><a href="https://stackoverflow.com/questions/tagged/pyscript" target="_blank">Stack Overflow</a> - PyScriptタグの質問と回答</li>
+                <li><a href="https://twitter.com/pyscript_dev" target="_blank">Twitter</a> - PyScriptの公式Twitterアカウント</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>PyScriptの将来</h2>
+        <div class="resource-section">
+            <p>PyScriptは比較的新しいプロジェクトであり、急速に発展しています。将来的には以下のような改善が期待されています：</p>
+            
+            <ul>
+                <li>パフォーマンスの向上</li>
+                <li>より多くのライブラリのサポート</li>
+                <li>開発ツールの改善</li>
+                <li>モバイルデバイスでの最適化</li>
+                <li>より豊富なUIコンポーネント</li>
+            </ul>
+            
+            <p>PyScriptの開発状況を定期的にチェックして、最新の機能や改善点を確認することをお勧めします。</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>PyScript 学習リソース &copy; 2023 - <a href="https://github.com/toma4423/py_script" target="_blank">GitHub リポジトリ</a></p>
+    </footer>
+</body>
+</html> 

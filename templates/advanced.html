@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyScript 高度な学習ページ</title>
+    <!-- PyScriptのCSSとJSを読み込み -->
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <!-- 共通CSSの読み込み -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}" />
+</head>
+<body>
+    <div class="nav">
+        <a href="{{ url_for('index') }}">基本ページ</a>
+        <a href="{{ url_for('advanced') }}">高度な例</a>
+        <a href="{{ url_for('resources') }}">学習リソース</a>
+        <a href="https://github.com/toma4423/py_script" target="_blank">GitHub リポジトリ</a>
+    </div>
+
+    <header>
+        <h1>PyScript 高度な学習ページ</h1>
+        <p>このページではPyScriptのより高度な機能や応用例を紹介します。</p>
+    </header>
+
+    <section>
+        <h2>データ分析の例</h2>
+        <div class="example">
+            <h3>例1: Pandas を使ったデータ分析</h3>
+            <div id="pandas-output" class="output-area"></div>
+            <py-config>
+                packages = ["pandas", "numpy"]
+            </py-config>
+            <py-script output="pandas-output">
+                """
+                Pandasを使用した簡単なデータ分析の例
+                
+                このスクリプトでは、ダミーデータを作成し、Pandasを使用して
+                基本的なデータ分析を行います。
+                """
+                import pandas as pd
+                import numpy as np
+                
+                # ダミーデータの作成
+                np.random.seed(42)
+                data = {
+                    '名前': ['田中', '佐藤', '鈴木', '高橋', '伊藤', '渡辺', '山本', '中村', '小林', '加藤'],
+                    '年齢': np.random.randint(20, 60, 10),
+                    '給料': np.random.randint(300000, 800000, 10),
+                    '部署': np.random.choice(['営業', '開発', '人事', '経理', '総務'], 10)
+                }
+                
+                # DataFrameの作成
+                df = pd.DataFrame(data)
+                
+                # データの表示
+                print("## 従業員データ")
+                print(df)
+                
+                # 基本的な統計情報
+                print("\n## 基本統計情報")
+                print(df.describe())
+                
+                # 部署ごとの平均給料
+                print("\n## 部署ごとの平均給料")
+                dept_salary = df.groupby('部署')['給料'].mean().sort_values(ascending=False)
+                print(dept_salary)
+                
+                # 最高給料の従業員
+                print("\n## 最高給料の従業員")
+                max_salary_employee = df.loc[df['給料'].idxmax()]
+                print(max_salary_employee)
+            </py-script>
+        </div>
+    </section>
+
+    <section>
+        <h2>機械学習の例</h2>
+        <div class="example">
+            <h3>例2: scikit-learn を使った簡単な機械学習</h3>
+            <div id="ml-output" class="output-area"></div>
+            <py-config>
+                packages = ["scikit-learn", "numpy", "matplotlib"]
+            </py-config>
+            <py-script output="ml-output">
+                """
+                scikit-learnを使用した簡単な機械学習の例
+                
+                このスクリプトでは、アイリスデータセットを使用して
+                簡単な分類モデルを構築します。
+                """
+                import numpy as np
+                import matplotlib.pyplot as plt
+                from sklearn.datasets import load_iris
+                from sklearn.model_selection import train_test_split
+                from sklearn.neighbors import KNeighborsClassifier
+                from sklearn.metrics import accuracy_score, classification_report
+                
+                # データの読み込み
+                iris = load_iris()
+                X = iris.data
+                y = iris.target
+                
+                # データの分割
+                X_train, X_test, y_train, y_test = train_test_split(
+                    X, y, test_size=0.3, random_state=42
+                )
+                
+                # モデルの構築
+                knn = KNeighborsClassifier(n_neighbors=3)
+                knn.fit(X_train, y_train)
+                
+                # 予測
+                y_pred = knn.predict(X_test)
+                
+                # 結果の評価
+                accuracy = accuracy_score(y_test, y_pred)
+                print(f"モデルの精度: {accuracy:.4f}")
+                
+                # 分類レポート
+                print("\n分類レポート:")
+                print(classification_report(y_test, y_pred, target_names=iris.target_names))
+                
+                # 特徴量の重要度を可視化（KNNでは直接的な特徴量重要度はないため、代わりに特徴量の分布を表示）
+                plt.figure(figsize=(10, 6))
+                
+                features = ['萼片の長さ', '萼片の幅', '花弁の長さ', '花弁の幅']
+                colors = ['blue', 'red', 'green']
+                
+                for i in range(4):
+                    plt.subplot(2, 2, i+1)
+                    for j in range(3):
+                        plt.scatter(X[y == j, 0], X[y == j, i], 
+                                   alpha=0.8, c=colors[j], label=iris.target_names[j] if i == 0 else "")
+                    plt.xlabel('萼片の長さ')
+                    plt.ylabel(features[i])
+                    if i == 0:
+                        plt.legend()
+                
+                plt.tight_layout()
+                plt
+            </py-script>
+        </div>
+    </section>
+
+    <section>
+        <h2>インタラクティブなアプリケーション</h2>
+        <div class="example">
+            <h3>例3: 簡単な計算機アプリ</h3>
+            <div class="calculator">
+                <div>
+                    <input id="num1" type="number" placeholder="数値1">
+                    <select id="operator">
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                        <option value="*">×</option>
+                        <option value="/">÷</option>
+                        <option value="**">^</option>
+                    </select>
+                    <input id="num2" type="number" placeholder="数値2">
+                    <button id="calculate-btn" pys-onClick="calculate">計算</button>
+                </div>
+                <div id="calc-result" class="output-area"></div>
+                
+                <py-script>
+                    """
+                    簡単な計算機アプリケーション
+                    
+                    このスクリプトでは、ユーザーが入力した2つの数値と演算子を使用して
+                    計算を行い、結果を表示します。
+                    """
+                    from pyscript import Element
+                    
+                    def calculate(*args, **kwargs):
+                        # 入力値の取得
+                        try:
+                            num1 = float(Element("num1").value)
+                            num2 = float(Element("num2").value)
+                            operator = Element("operator").value
+                            
+                            # 計算の実行
+                            if operator == "+":
+                                result = num1 + num2
+                            elif operator == "-":
+                                result = num1 - num2
+                            elif operator == "*":
+                                result = num1 * num2
+                            elif operator == "/":
+                                if num2 == 0:
+                                    Element("calc-result").write("エラー: ゼロで割ることはできません")
+                                    return
+                                result = num1 / num2
+                            elif operator == "**":
+                                result = num1 ** num2
+                            
+                            # 結果の表示
+                            Element("calc-result").write(f"計算結果: {result}")
+                        except ValueError:
+                            Element("calc-result").write("エラー: 有効な数値を入力してください")
+                </py-script>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>外部APIとの連携</h2>
+        <div class="example">
+            <h3>例4: JSONPlaceholderからデータを取得</h3>
+            <button id="fetch-data-btn" pys-onClick="fetch_data">データを取得</button>
+            <div id="api-result" class="output-area"></div>
+            
+            <py-script>
+                """
+                外部APIからデータを取得する例
+                
+                このスクリプトでは、JSONPlaceholderからダミーデータを取得し、
+                表示します。
+                """
+                import json
+                from pyodide.http import pyfetch
+                from pyscript import Element
+                
+                async def fetch_data(*args, **kwargs):
+                    try:
+                        Element("api-result").write("データを取得中...")
+                        
+                        # JSONPlaceholderからデータを取得
+                        response = await pyfetch(
+                            url="https://jsonplaceholder.typicode.com/posts?_limit=5",
+                            method="GET"
+                        )
+                        
+                        if response.status == 200:
+                            data = await response.json()
+                            
+                            # 結果の表示
+                            result = "<h4>取得したデータ:</h4><ul>"
+                            for post in data:
+                                result += f"<li><strong>タイトル:</strong> {post['title']}<br>"
+                                result += f"<strong>内容:</strong> {post['body'][:100]}...</li>"
+                            result += "</ul>"
+                            
+                            Element("api-result").write(result)
+                        else:
+                            Element("api-result").write(f"エラー: ステータスコード {response.status}")
+                    
+                    except Exception as e:
+                        Element("api-result").write(f"エラー: {str(e)}")
+            </py-script>
+        </div>
+    </section>
+
+    <footer>
+        <p>PyScript 高度な学習ページ &copy; 2023 - <a href="https://github.com/toma4423/py_script" target="_blank">GitHub リポジトリ</a></p>
+    </footer>
+</body>
+</html> 
